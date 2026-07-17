@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | MyLove's Essentials</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+body{
+    background:#111;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    margin:0;
+}
+
+header{
+    background:#000;
+    padding:20px;
+    text-align:center;
+}
+
+.container{
+    max-width:1000px;
+    margin:30px auto;
+    padding:20px;
+}
+
+.card{
+    background:#1b1b1b;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    border:none;
+    box-sizing:border-box;
+}
+
+button{
+    background:#d4af37;
+    color:#000;
+    padding:12px 20px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#status{
+    margin-top:15px;
+    color:#d4af37;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>MyLove's Essentials Admin</h1>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Add Product</h2>
+
+<input id="name" placeholder="Product Name">
+
+<input id="price" placeholder="Price">
+
+<input id="category" placeholder="Category">
+
+<textarea id="description" placeholder="Description"></textarea>
+
+<button id="saveProduct">
+Save Product
+</button>
+
+<p id="status"></p>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>
