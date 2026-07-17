@@ -1,3 +1,5 @@
+console.log("ADMIN JS IS WORKING");
+
 const SUPABASE_URL = "https://akuiyfasztszalelihvi.supabase.co";
 const SUPABASE_KEY = "sb_publishable_LNCF4fhHCcJUNW1y_vuoIg_eBBLkkPv";
 
@@ -17,8 +19,11 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
 
     if (error) {
         message.textContent = error.message;
+        console.log("Login error:", error.message);
         return;
     }
+
+    console.log("Login successful");
 
     window.location.href = "dashboard.html";
 });
