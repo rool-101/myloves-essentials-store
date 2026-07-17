@@ -3,73 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard | MyLove's Essentials</title>
+
+<title>MyLove's Essentials Admin</title>
 
 <link rel="stylesheet" href="css/style.css">
 
 <style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
 body{
-    background:#111;
-    color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
-    margin:0;
+display:flex;
+background:#111;
+color:#fff;
+min-height:100vh;
 }
 
-header{
-    background:#000;
-    padding:20px;
-    text-align:center;
+.sidebar{
+width:250px;
+background:#000;
+padding:20px;
 }
 
-.container{
-    max-width:1000px;
-    margin:30px auto;
-    padding:20px;
+.sidebar h2{
+color:#d4af37;
+margin-bottom:30px;
+text-align:center;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar li{
+margin:15px 0;
+}
+
+.sidebar a{
+display:block;
+padding:12px;
+background:#1d1d1d;
+color:#fff;
+text-decoration:none;
+border-radius:8px;
+}
+
+.sidebar a:hover{
+background:#d4af37;
+color:#000;
+}
+
+.main{
+flex:1;
+padding:25px;
 }
 
 .card{
-    background:#1b1b1b;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:20px;
+background:#1c1c1c;
+padding:20px;
+border-radius:12px;
+margin-bottom:25px;
+}
+
+.card h2{
+margin-bottom:20px;
+color:#d4af37;
 }
 
 input,
-textarea,
-select{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:8px;
-    border:none;
-    box-sizing:border-box;
+textarea{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border:none;
+border-radius:8px;
 }
 
 button{
-    background:#d4af37;
-    color:#000;
-    padding:12px 20px;
-    border:none;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
+background:#d4af37;
+color:#000;
+padding:12px 20px;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #333;
+text-align:left;
+}
+
+th{
+color:#d4af37;
 }
 
 #status{
-    margin-top:15px;
-    color:#d4af37;
+margin-top:15px;
+color:#d4af37;
 }
+
 </style>
 
 </head>
 
 <body>
 
-<header>
-<h1>MyLove's Essentials Admin</h1>
-</header>
+<div class="sidebar">
 
-<div class="container">
+<h2>💋 MyLove's Essentials</h2>
+
+<ul>
+
+<li><a href="#">📊 Dashboard</a></li>
+
+<li><a href="#">📦 Products</a></li>
+
+<li><a href="#">🛒 Orders</a></li>
+
+<li><a href="#">👥 Customers</a></li>
+
+<li><a href="#">💳 Payments</a></li>
+
+<li><a href="#">⚙️ Settings</a></li>
+
+<li><a href="admin.html">🚪 Logout</a></li>
+
+</ul>
+
+</div>
+
+<div class="main">
 
 <div class="card">
 
@@ -77,17 +153,61 @@ button{
 
 <input id="name" placeholder="Product Name">
 
-<input id="price" placeholder="Price">
+<input id="price" type="number" placeholder="Price">
 
 <input id="category" placeholder="Category">
 
+<input id="stock" type="number" placeholder="Stock Quantity">
+
 <textarea id="description" placeholder="Description"></textarea>
+
+<input id="image" type="file">
 
 <button id="saveProduct">
 Save Product
 </button>
 
 <p id="status"></p>
+
+</div>
+
+<div class="card">
+
+<h2>Products</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Product</th>
+
+<th>Price</th>
+
+<th>Stock</th>
+
+<th>Edit</th>
+
+<th>Delete</th>
+
+</tr>
+
+</thead>
+
+<tbody id="productTable">
+
+<tr>
+
+<td colspan="5">
+No products yet.
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
