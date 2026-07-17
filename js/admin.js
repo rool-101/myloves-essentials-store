@@ -3,10 +3,8 @@ const SUPABASE_KEY = "sb_publishable_LNCF4fhHCcJUNW1y_vuoIg_eBBLkkPv";
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const loginBtn = document.getElementById("loginBtn");
-
-loginBtn.addEventListener("click", async () => {
-    const email = document.getElementById("email").value;
+document.getElementById("loginBtn").addEventListener("click", async () => {
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
     const message = document.getElementById("message");
 
@@ -19,8 +17,8 @@ loginBtn.addEventListener("click", async () => {
 
     if (error) {
         message.textContent = error.message;
-    } else {
-        message.textContent = "Login successful!";
-        window.location.href = "dashboard.html";
+        return;
     }
+
+    window.location.href = "dashboard.html";
 });
