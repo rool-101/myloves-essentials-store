@@ -1,4 +1,4 @@
-console.log("ADMIN JS IS WORKING");
+alert("ADMIN JS LOADED");
 
 const SUPABASE_URL = "https://akuiyfasztszalelihvi.supabase.co";
 const SUPABASE_KEY = "sb_publishable_LNCF4fhHCcJUNW1y_vuoIg_eBBLkkPv";
