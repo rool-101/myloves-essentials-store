@@ -1,223 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+alert("dashboard.js loaded");
 
-<title>MyLove's Essentials Admin</title>
+const SUPABASE_URL = "https://akuiyfasztszalelihvi.supabase.co";
+const SUPABASE_KEY = "sb_publishable_LNCF4fhHCcJUNW1y_vuoIg_eBBLkkPv";
 
-<link rel="stylesheet" href="css/style.css">
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
+const saveButton = document.getElementById("saveProduct");
+const status = document.getElementById("status");
+const table = document.getElementById("productTable");
+
+async function loadProducts() {
+
+    table.innerHTML = "<tr><td colspan='5'>Loading...</td></tr>";
+
+    const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        table.innerHTML = `<tr><td colspan="5">${error.message}</td></tr>`;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        table.innerHTML = "<tr><td colspan='5'>No products found.</td></tr>";
+        return;
+    }
+
+    table.innerHTML = "";
+
+    data.forEach(product => {
+
+        table.innerHTML += `
+        <tr>
+            <td>${product.name || ""}</td>
+            <td>R ${product.price || 0}</td>
+            <td>${product.stock || 0}</td>
+            <td><button>Edit</button></td>
+            <td><button>Delete</button></td>
+        </tr>
+        `;
+
+    });
+
 }
 
-body{
-    display:flex;
-    min-height:100vh;
-    background:#111;
-    color:#fff;
-}
+saveButton.addEventListener("click", async () => {
 
-.sidebar{
-    width:250px;
-    background:#000;
-    padding:20px;
-}
+    const name = document.getElementById("name").value.trim();
+    const price = parseFloat(document.getElementById("price").value);
+    const category = document.getElementById("category").value.trim();
+    const stock = parseInt(document.getElementById("stock").value) || 0;
+    const description = document.getElementById("description").value.trim();
 
-.sidebar h2{
-    color:#d4af37;
-    text-align:center;
-    margin-bottom:30px;
-}
+    if (!name) {
+        status.textContent = "Please enter a product name.";
+        return;
+    }
 
-.sidebar ul{
-    list-style:none;
-}
+    status.textContent = "Saving product...";
 
-.sidebar li{
-    margin-bottom:12px;
-}
+    const { error } = await supabase
+        .from("products")
+        .insert([
+            {
+                name,
+                price,
+                category,
+                stock,
+                description,
+                featured: false
+            }
+        ]);
 
-.sidebar a{
-    display:block;
-    text-decoration:none;
-    color:#fff;
-    background:#1c1c1c;
-    padding:12px;
-    border-radius:8px;
-}
+    if (error) {
+        status.textContent = error.message;
+        alert(error.message);
+        return;
+    }
 
-.sidebar a:hover{
-    background:#d4af37;
-    color:#000;
-}
+    status.textContent = "✅ Product saved successfully.";
 
-.main{
-    flex:1;
-    padding:25px;
-}
+    document.getElementById("name").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("category").value = "";
+    document.getElementById("stock").value = "";
+    document.getElementById("description").value = "";
 
-.card{
-    background:#1c1c1c;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:25px;
-}
+    loadProducts();
 
-.card h2{
-    color:#d4af37;
-    margin-bottom:20px;
-}
+});
 
-input,
-textarea{
-    width:100%;
-    padding:12px;
-    margin-bottom:15px;
-    border:none;
-    border-radius:8px;
-}
-
-button{
-    background:#d4af37;
-    color:#000;
-    border:none;
-    padding:12px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-button:hover{
-    opacity:.9;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
-}
-
-th,
-td{
-    padding:12px;
-    border-bottom:1px solid #333;
-    text-align:left;
-}
-
-th{
-    color:#d4af37;
-}
-
-#status{
-    margin-top:15px;
-    color:#d4af37;
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="sidebar">
-
-<h2>💋 MyLove's Essentials</h2>
-
-<ul>
-<li><a href="#">📊 Dashboard</a></li>
-<li><a href="#">📦 Products</a></li>
-<li><a href="#">🛒 Orders</a></li>
-<li><a href="#">👥 Customers</a></li>
-<li><a href="#">💳 Payments</a></li>
-<li><a href="#">⚙️ Settings</a></li>
-<li><a href="admin.html">🚪 Logout</a></li>
-</ul>
-
-</div>
-
-<div class="main">
-
-<div class="card">
-
-<h2>Add Product</h2>
-
-<input
-type="text"
-id="name"
-placeholder="Product Name">
-
-<input
-type="number"
-id="price"
-placeholder="Price">
-
-<input
-type="text"
-id="category"
-placeholder="Category">
-
-<input
-type="number"
-id="stock"
-placeholder="Stock Quantity">
-
-<textarea
-id="description"
-placeholder="Description"></textarea>
-
-<input
-type="file"
-id="image">
-
-<button id="saveProduct">
-Save Product
-</button>
-
-<p id="status"></p>
-
-</div>
-
-<div class="card">
-
-<h2>Products</h2>
-
-<table>
-
-<thead>
-
-<tr>
-<th>Product</th>
-<th>Price</th>
-<th>Stock</th>
-<th>Edit</th>
-<th>Delete</th>
-</tr>
-
-</thead>
-
-<tbody id="productTable">
-
-<tr>
-<td colspan="5">
-No products yet.
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/dashboard.js"></script>
-
-</body>
-</html>
+loadProducts();
